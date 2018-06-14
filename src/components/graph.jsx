@@ -5,12 +5,19 @@ import AutoComplete from 'material-ui/AutoComplete';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {ActionSearch, AddCircle} from 'material-ui/svg-icons';
 
+/*const Button = (props) => {
+  return (
+    <
+  );
+};*/
+
 class Graph extends Component {
   constructor(props){
   	super(props);
   	this.state={
   	  wordList:[],
       currentSearch:"",
+      graphTree:{}
   	}
   }
   componentWillMount(){
@@ -44,7 +51,7 @@ class Graph extends Component {
             phrase.push(
               <div className="phrase">
                 <span>{data[rootIndex][i]} </span>
-                <div>+</div>
+                <div onClick={}>+</div>
               </div>
             );
           }else{
@@ -56,12 +63,13 @@ class Graph extends Component {
       }
       graph.push(<div className="graphText">{phrase}</div>);//i add the whole phare in a div to keep it together
     }
-    this.setState({graph:graph});
+    return graph;
   }
 
   render(){
   	return(
   	  <div className="container" style={{direction:(this.state.currentSearch.search(/[\u0040-\u007A]/)>=0)?"LTR":"RTL"}}>
+        
         <div>
     	  	<AutoComplete
             className="inputBox"
@@ -70,15 +78,19 @@ class Graph extends Component {
             dataSource={this.state.wordList}
             onUpdateInput={(searchText)=>this.setState({currentSearch:searchText})}
           />
-          <FloatingActionButton onClick={()=>this.formGraph()}>
-            <ActionSearch className="searchButton"/>
+          <FloatingActionButton onClick={()=>this.setState({graph:this.formGraph()})}>
+            <ActionSearch className="searchButton" />
           </FloatingActionButton>
         </div>
+        <svg className="svgOverlay" height="1000" width="1000">
+           <circle cx={500} cy={200} r={10} fill="red" />
+        </svg>
         {this.state.graph}
   	  	<div>
           נמוך
           <span className="test">g</span><span className="test">r</span><span className="test">a</span><span className="test">p</span>
         </div>
+      
   	  </div>
   	)
   }
