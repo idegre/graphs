@@ -1,0 +1,22 @@
+
+-install jquery
+-add search
+	-make functional
+	-make ltr when nesessary
+-add subwords
+
+-add lines
+	break up root word into a bucnk of spans to get their positions with jquery
+	overlay a svg plane (over the spacer?)
+-basic functionality
+	make phrases
+	make diferent levels
+	add subraphs
+		make recursive ( new subraphs apear inside that words div somehow)
+
+-make csv file a cron job somewhere
+	-add a new first line on each import to get the right keys into it
+
+done:
+-obtain JSON (manually)
+-install materialUI
