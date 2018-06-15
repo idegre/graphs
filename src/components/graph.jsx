@@ -17,7 +17,38 @@ class Graph extends Component {
   	this.state={
   	  wordList:[],
       currentSearch:"",
-      graphTree:{}
+      /*graph:[
+        {word:'wine',
+          branch:[
+            {word:'wine',branch:[
+              {word:'wine',branch:[]},
+              {word:'is',branch:[]},
+              {word:'no',branch:[]},
+              {word:'emulator',branch:[]},
+            ]},
+            {word:'is',branch:[]},
+            {word:'no',branch:[]},
+            {word:'emulator',branch:[]},
+        ]}
+      ],*/
+      /*graph:[
+        {word:'CF',
+          branch:[
+            {word:'CIA',branch:[
+              {word:'central',branch:[]},
+              {word:'inteligence',branch:[]},
+              {word:'agency',branch:[]},
+            ]},
+            {word:'FBI',branch:[
+              {word:'Federal',branch:[
+                {word:'F.?.abbreviation',branch:[]},
+              ]},
+              {word:'bureau',branch:[]},
+              {word:'investigation',branch:[]},
+            ]},
+        ]}
+      ],*/
+      graph:[],
   	}
   }
   componentWillMount(){
@@ -25,6 +56,7 @@ class Graph extends Component {
   	this.getAbbreviationList();
   }
 
+  //creates a list of words in the database
   getAbbreviationList(){
   	var words=[];//make an empty wird list
   	data.map(abb=>{
@@ -34,36 +66,54 @@ class Graph extends Component {
   	this.setState({wordList:words});
   }
 
-  formGraph(root){
-    const spacer=<div className="spacer"></div>
-    var graph=[];
-    graph.push(<div className="graphText">{this.state.currentSearch}</div>);
-    graph.push(spacer);
-    const rootIndex=this.state.wordList.indexOf(this.state.currentSearch)
-    if(rootIndex!=-1){
-      console.log('formGraph, tiene hijos');
-      var phrase=[];
-      for(var i=0;i<6;i++){//hardcoded because it's hardcoded in the json
-        console.log('formGraph, hijos:',data[rootIndex][i]);
-        if(data[rootIndex][i]!=''){
-          if(this.state.wordList.indexOf(data[rootIndex][i])){
-            console.log('formGraph,',data[rootIndex][i],' tiene sub hijos!');
-            phrase.push(
-              <div className="phrase">
-                <span>{data[rootIndex][i]} </span>
-                <div onClick={}>+</div>
-              </div>
-            );
-          }else{
-            phrase.push(
-              <span>{data[rootIndex][i]} </span>
-            );
-          }
-        }
-      }
-      graph.push(<div className="graphText">{phrase}</div>);//i add the whole phare in a div to keep it together
+  //returns a new graph with an extended branch
+  addBranch(oldGraph,word){
+    console.log('adding branch in',oldGraph,'for',word);
+    var newGraph=[];
+    if(oldGraph==null){//initialize graph
+      newGraph.push({word:word});
+      newGraph[0].branch=[];
     }
-    return graph;
+    if()
+    for(var i=0;i<6;i++){
+      newGraph.branch.push(); 
+    }
+    console.log('addBranch, newgr:',newGraph);
+    return newGraph;
+  }
+
+  //adds the nesesary lines to the lines state
+  makeLine(){
+
+  }
+
+  //returns the entire graph as jsx
+  returnGraph(graph){
+    const spacer=<div className="spacer"></div>
+    var graphJSX=[];
+    console.log('returnGraph, trying to print:',graph);
+    var phrase=[];
+    graph.map((leaf)=>{//this maps through the pharse
+      console.log('returnGraph, mapping though branch:',leaf);
+      phrase.push(<span>{leaf.word} </span>);
+    })
+    graphJSX.push(<div className="phraseContainer">{phrase}</div>);
+    graphJSX.push(spacer);
+    var level=[]
+    for(var i=0;i<graph.length;i++){//this maps through diferent words looking for the ones that continue  downwards
+      if(graph[i].branch.length>0){
+        level.push(this.returnGraph(graph[i].branch));
+      }
+    }
+    graphJSX.push(<div className="level">{level}</div>)
+    return <div className="graph">{graphJSX}</div>;
+  }
+
+  /*
+  *  it takes a json of a branch and returns the jsx objec for it
+  */
+  returnBranch(word){
+    return <div>branch</div>
   }
 
   render(){
@@ -78,17 +128,14 @@ class Graph extends Component {
             dataSource={this.state.wordList}
             onUpdateInput={(searchText)=>this.setState({currentSearch:searchText})}
           />
-          <FloatingActionButton onClick={()=>this.setState({graph:this.formGraph()})}>
-            <ActionSearch className="searchButton" />
+          <FloatingActionButton iconStyle={{height:30,width:30}} style={{height:30,width:30,marginRight:20}} onClick={()=>this.setState({graph:this.addBranch(null,this.state.currentSearch)})}>
+            <ActionSearch />
           </FloatingActionButton>
         </div>
-        <svg className="svgOverlay" height="1000" width="1000">
-           <circle cx={500} cy={200} r={10} fill="red" />
-        </svg>
-        {this.state.graph}
+        {this.returnGraph(this.state.graph)}
   	  	<div>
-          נמוך
-          <span className="test">g</span><span className="test">r</span><span className="test">a</span><span className="test">p</span>
+          {/*נמוך
+                    <span className="test">g</span><span className="test">r</span><span className="test">a</span><span className="test">p</span>*/}
         </div>
       
   	  </div>
