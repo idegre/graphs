@@ -9,10 +9,11 @@
 	break up root word into a bucnk of spans to get their positions with jquery
 	overlay a svg plane (over the spacer?)
 -basic functionality
-	make phrases
-	make diferent levels
-	add subraphs
-		make recursive ( new subraphs apear inside that words div somehow)
+	make phrases x
+	make diferent levels x
+	add subraphs x
+		make recursive ( new subraphs apear inside that words div somehow) x
+	make each layer smaller than the previous one(could ad a dephth property and interpolate the font size with it)
 
 -make csv file a cron job somewhere
 	-add a new first line on each import to get the right keys into it
@@ -20,3 +21,21 @@
 done:
 -obtain JSON (manually)
 -install materialUI
+
+{
+	word:FBI,
+	branch:[
+		{word:federal,branch[]},
+		{word:bureau,branch[]}
+	]
+}
+{
+	word:wine,
+	branch:[
+		{word:wine,brach[]},
+		{word:is,brach[]},
+		{word:not,brach[]},
+		{word:emulator,brach[]},
+	]
+}
+this.setstate({graph:this.addBrach()})

@@ -58,6 +58,7 @@ class Graph extends Component {
 
   //creates a list of words in the database
   getAbbreviationList(){
+    console.log('getAbbreviationList, original data:',data);
   	var words=[];//make an empty wird list
   	data.map(abb=>{
   	  words.push(abb.word)
@@ -73,10 +74,24 @@ class Graph extends Component {
     if(oldGraph==null){//initialize graph
       newGraph.push({word:word});
       newGraph[0].branch=[];
-    }
-    if()
-    for(var i=0;i<6;i++){
-      newGraph.branch.push(); 
+    }else{newGraph=oldGraph;}
+    for(var i=0;i<newGraph.length;i++){//this maps through diferent words looking for the ones that continue downwards
+      if(newGraph[i].branch.length>0){
+        console.log('addBranch, not on this leve, going deper!');
+        newGraph[i].branch=this.addBranch(newGraph[i].branch,word);//calls itself on the next layer
+      }else if(newGraph[i].word==word){//if the graph isn't already expanded and 
+        const index=this.state.wordList.indexOf(word);
+        console.log('addBranch, found it!',data[index]);
+        for(var v=0;v<6;v++){//hardcoded because it's hardcoded in the json
+          console.log('formGraph, hijos:',data[index][i]);
+          if(data[index][v]!=''){
+            console.log('formGraph, adding:',data[index][v],'current:',newGraph[i].branch[v]);
+            newGraph[i].branch[v]={};
+            newGraph[i].branch[v].word=data[index][v];
+            newGraph[i].branch[v].branch=[];//nessesary to keep it from crashing
+          }
+        }
+      }
     }
     console.log('addBranch, newgr:',newGraph);
     return newGraph;
@@ -100,7 +115,7 @@ class Graph extends Component {
     graphJSX.push(<div className="phraseContainer">{phrase}</div>);
     graphJSX.push(spacer);
     var level=[]
-    for(var i=0;i<graph.length;i++){//this maps through diferent words looking for the ones that continue  downwards
+    for(var i=0;i<graph.length;i++){//this maps through diferent words looking for the ones that continue downwards
       if(graph[i].branch.length>0){
         level.push(this.returnGraph(graph[i].branch));
       }
