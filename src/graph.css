@@ -7,6 +7,7 @@
 	align-items: center;
 	justify-content: center;
   flex-direction: column; 
+  position: relative;
 }
 .inputBox{
    direction: rtl;
@@ -42,6 +43,19 @@
   align-items: center;
 }
 .phraseContainer{
+  display: flex;
+  flex-direction: row;
   margin-left: 10px;
   margin-right: 10px;
+
+}
+.svgContainer{
+  position:absolute;
+  top:0px;
+  left: 0px;
+  background: red;
+  z-index: -10;
+}
+.letter{
+    white-space:pre;
 }

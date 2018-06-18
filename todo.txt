@@ -1,13 +1,11 @@
 
--install jquery
--add search
-	-make functional
-	-make ltr when nesessary
--add subwords
+
+-spaces within words not showing up
 
 -add lines
 	break up root word into a bucnk of spans to get their positions with jquery
 	overlay a svg plane (over the spacer?)
+
 -basic functionality
 	make phrases x
 	make diferent levels x
@@ -21,6 +19,13 @@
 done:
 -obtain JSON (manually)
 -install materialUI
+-install jquery
+-add subwords
+
+-add search
+	-make functional
+	-make ltr when nesessary
+
 
 {
 	word:FBI,
