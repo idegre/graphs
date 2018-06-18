@@ -33,7 +33,7 @@ class Graph extends Component {
             {word:'emulator',branch:[]},
         ]}
       ],*/
-      graph:[
+      /*graph:[
         {word:'CF',
           level:0,
           branch:[
@@ -50,8 +50,8 @@ class Graph extends Component {
               {word:'Investigation',level:2,branch:[]},
             ]},
         ]}
-      ],
-      //graph:[],
+      ],*/
+      graph:[],
   	}
   }
   componentWillMount(){
@@ -139,6 +139,9 @@ class Graph extends Component {
     var key=0;
     lines.map(line=>{
       console.log('drawLines, adding:',line);
+      if($(findDOMNode(this.refs[line.from])).position()==undefined||$(findDOMNode(this.refs[line.to])).position()==undefined){
+        this.forceUpdate();
+      }
       linesJSX.push(<line
         key={key}
         x1={($(findDOMNode(this.refs[line.from])).position()!=undefined)?$(findDOMNode(this.refs[line.from])).position().left+5:null} 
@@ -166,13 +169,13 @@ class Graph extends Component {
       leaf.word.split("").map(letter=>{
         word.push(<span className="letter" ref={leaf.word+''+letter+''+level} id={leaf.word+''+letter+''+level}>{letter}</span>);
       });
-      word.push(<span className="letter"></span>);
+      word.push(<span className="letter"> </span>);
       wordGroup.push(<div>{word} </div>);//i add the word to the word group
       
       if((this.state.wordList.indexOf(leaf.word)!=-1)&&(leaf.branch.length==0)){//this word is on the database and not already expanded
         wordGroup.push(<div onClick={()=>this.setState({graph:this.addBranch(this.state.graph,leaf.word)})}>+</div>);//add an expand button
       }
-      phrase.push(<span>{wordGroup} </span>);
+      phrase.push(<span className="letter">{wordGroup} </span>);
     });
 
     graphJSX.push(<div className="phraseContainer">{phrase}</div>);
@@ -189,10 +192,12 @@ class Graph extends Component {
   }
 
   render(){
+    const graph=this.returnGraph(this.state.graph,0);
+    const lines=this.drawLines(this.makeLines(this.state.graph));
   	return(
   	  <div className="container" ref="container" style={{direction:(this.state.currentSearch.search(/[\u0040-\u007A]/)>=0)?"LTR":"RTL"}}>
         <svg className="svgContainer" height={$(findDOMNode(this.refs.container)).css("height")} width={$(findDOMNode(this.refs.container)).css("width")}>
-          {this.drawLines(this.makeLines(this.state.graph))}
+          {lines}
         </svg>
         <div>
     	  	<AutoComplete
@@ -206,14 +211,7 @@ class Graph extends Component {
             <ActionSearch />
           </FloatingActionButton>
         </div>
-        {this.returnGraph(this.state.graph,0)}
-        
-        {console.log('position:',$(findDOMNode(this.refs.CIAC1)).position(),this.refs.CIAC1)}
-  	  	<div>
-          {/*נמוך
-          <span className="test">g</span><span className="test">r</span><span className="test">a</span><span className="test">p</span>*/}
-        </div>
-      
+        {graph}
   	  </div>
   	)
   }

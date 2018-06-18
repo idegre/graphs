@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 .container{
-	border-width: 2px;
+	/*border-width: 2px;
 	border-color: black;
-	border-style: solid;
+	border-style: solid;*/
+  direction: rtl;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -31,9 +32,9 @@
 .level{
   display: flex;
   flex-direction: row;
-  border-color: red;
+  /*border-color: red;
   border-style: dotted;
-  border-width: 1px;
+  border-width: 1px;*/
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -53,7 +54,6 @@
   position:absolute;
   top:0px;
   left: 0px;
-  background: red;
   z-index: -10;
 }
 .letter{

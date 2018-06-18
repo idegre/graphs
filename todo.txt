@@ -1,10 +1,8 @@
 
 
--spaces within words not showing up
 
--add lines
-	break up root word into a bucnk of spans to get their positions with jquery
-	overlay a svg plane (over the spacer?)
+
+
 
 -basic functionality
 	make phrases x
@@ -21,26 +19,11 @@ done:
 -install materialUI
 -install jquery
 -add subwords
+-spaces within words not showing up
+-add lines
+	break up root word into a bucnk of spans to get their positions with jqueryx
+	overlay a svg plane (over the spacer?)x
 
 -add search
 	-make functional
 	-make ltr when nesessary
-
-
-{
-	word:FBI,
-	branch:[
-		{word:federal,branch[]},
-		{word:bureau,branch[]}
-	]
-}
-{
-	word:wine,
-	branch:[
-		{word:wine,brach[]},
-		{word:is,brach[]},
-		{word:not,brach[]},
-		{word:emulator,brach[]},
-	]
-}
-this.setstate({graph:this.addBrach()})
