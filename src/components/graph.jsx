@@ -5,7 +5,7 @@ import "../graph.css";
 import * as data from"../data.json";
 import AutoComplete from 'material-ui/AutoComplete';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import {ActionSearch, AddCircle} from 'material-ui/svg-icons';
+import {ActionSearch} from 'material-ui/svg-icons';
 
 /*const Button = (props) => {
   return (
@@ -19,38 +19,6 @@ class Graph extends Component {
   	this.state={
   	  wordList:[],
       currentSearch:"",
-      /*graph:[
-        {word:'wine',
-          branch:[
-            {word:'wine',branch:[
-              {word:'wine',branch:[]},
-              {word:'is',branch:[]},
-              {word:'no',branch:[]},
-              {word:'emulator',branch:[]},
-            ]},
-            {word:'is',branch:[]},
-            {word:'no',branch:[]},
-            {word:'emulator',branch:[]},
-        ]}
-      ],*/
-      /*graph:[
-        {word:'CF',
-          level:0,
-          branch:[
-            {word:'CIA',level:1,branch:[
-              {word:'Central',level:2,branch:[]},
-              {word:'inteligence',level:2,branch:[]},
-              {word:'agency',level:2,branch:[]},
-            ]},
-            {word:'FBI',level:1,branch:[
-              {word:'Federal',level:2,branch:[
-                {word:'F.?.abbreviation',level:3,branch:[]},
-              ]},
-              {word:'Bureau',level:2,branch:[]},
-              {word:'Investigation',level:2,branch:[]},
-            ]},
-        ]}
-      ],*/
       graph:[],
   	}
   }
@@ -148,7 +116,7 @@ class Graph extends Component {
         y1={($(findDOMNode(this.refs[line.from])).position()!=undefined)?$(findDOMNode(this.refs[line.from])).position().top+16:null}
         x2={($(findDOMNode(this.refs[line.to])).position()!=undefined)?$(findDOMNode(this.refs[line.to])).position().left+5:null}
         y2={($(findDOMNode(this.refs[line.to])).position()!=undefined)?$(findDOMNode(this.refs[line.to])).position().top-1:null}
-        style={{stroke:'black',strokeWidth:2}} 
+        style={{stroke:'DarkGray',strokeWidth:1}} 
       />);
       key++;
     });
@@ -173,7 +141,7 @@ class Graph extends Component {
       wordGroup.push(<div>{word} </div>);//i add the word to the word group
       
       if((this.state.wordList.indexOf(leaf.word)!=-1)&&(leaf.branch.length==0)){//this word is on the database and not already expanded
-        wordGroup.push(<div onClick={()=>this.setState({graph:this.addBranch(this.state.graph,leaf.word)})}>+</div>);//add an expand button
+        wordGroup.push(<i className="material-icons" style={{color:'rgb(0,188,212)'}} onClick={()=>this.setState({graph:this.addBranch(this.state.graph,leaf.word)})}>add_circle</i>);//add an expand button
       }
       phrase.push(<span className="letter">{wordGroup} </span>);
     });
@@ -212,6 +180,7 @@ class Graph extends Component {
           </FloatingActionButton>
         </div>
         {graph}
+        
   	  </div>
   	)
   }
