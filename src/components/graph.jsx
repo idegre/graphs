@@ -114,16 +114,16 @@ class Graph extends Component {
     for(var i=0;i<graph.length;i++){//this maps through diferent words looking for the ones that continue downwards
       console.log('makeLines, checking', graph[i]);
       if(graph[i].branch.length>0){//if it has sons...
-        var newLine={};
         for(var l=0;l<graph[i].word.length;l++){
-          
-
-          newLine.from=graph[i].word+''+graph[i].word[l]+''+graph[i].level;
+          var newLine={};
           const indexOfWord=graph[i].branch.findIndex((el)=>{return el.word[0].toLowerCase()==graph[i].word[l].toLowerCase()});
           console.log('makeLines, cheking letter by letter in:', graph[i].word[l],indexOfWord);
-          if(indexOfWord>=0){newLine.to=graph[i].branch[indexOfWord].word+''+graph[i].branch[indexOfWord].word[0]+''+graph[i].branch[indexOfWord].level;}
-          console.log('makeLines, adding line from:',newLine.from,' to:',newLine.to);
-          linePairs.push(newLine);
+          if(indexOfWord>=0){
+            newLine.from=graph[i].word+''+graph[i].word[l]+''+graph[i].level;
+            newLine.to=graph[i].branch[indexOfWord].word+''+graph[i].branch[indexOfWord].word[0]+''+graph[i].branch[indexOfWord].level;
+            console.log('makeLines, adding line from:',newLine.from,' to:',newLine.to);
+            linePairs.push(newLine);
+          }
         }
         linePairs=linePairs.concat(this.makeLines(graph[i].branch));
         console.log('makeLines, aded next level=>',linePairs);
