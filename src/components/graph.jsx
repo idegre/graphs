@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+﻿import React, {Component} from 'react';
 import $ from 'jquery';
 import { findDOMNode } from 'react-dom';
 import "../graph.css";
@@ -171,7 +171,7 @@ class Graph extends Component {
           {lines}
         </svg>
         <div>
-    	  	<AutoComplete
+    	  <AutoComplete
             className="inputBox"
             hintText="וֹטָרִיקוֹן"
             dir={(this.state.currentSearch.search(/[\u0040-\u007A]/)>=0)?"LTR":"RTL"}
