@@ -25,6 +25,9 @@ class Graph extends Component {
   componentWillMount(){
   	console.log('preMount');
   	this.getAbbreviationList();
+    $( findDOMNode(this.refs['lvl0']) ).change(function() {
+      this.forceUpdate();
+    });
   }
 
   //creates a list of words in the database
@@ -155,7 +158,7 @@ class Graph extends Component {
         levelArray.push(this.returnGraph(graph[i].branch,level+1));
       }
     }
-    graphJSX.push(<div className="level">{levelArray}</div>)
+    graphJSX.push(<div ref={'lvl'+level} className="level">{levelArray}</div>)
     return <div className="graph">{graphJSX}</div>;
   }
 
@@ -180,7 +183,6 @@ class Graph extends Component {
           </FloatingActionButton>
         </div>
         {graph}
-        
   	  </div>
   	)
   }

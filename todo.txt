@@ -1,5 +1,52 @@
 
-
+-spaces too much
+-reapeated words get expanded together
+-make data.json be stored in a firestore
+-make the makeLine algorithm not sear backwards on the suub level words
+-lines not updating correctly
+-להקים  
+ 
+ועדת  
+ 
+חקירה  
+ 
+משפטית  
+ 
+והעלוהו  
+ 
+על  
++
+ 
+דרך  
++
+ 
+הפשיעה  
+ 
+יצרה  
+ 
+סרטונים  
+ 
+יהדות  
+ 
+צרפת  
+ 
+דובדבנים  
+ 
+או  
++
+ 
+ריבה  
++
+ 
+דמות  
+ 
+בדיונית  
+ 
+ביקום  
+ 
+דחפים
+cross line between to diferent brancehs
+repeated words in same level get the same id and the first one from the left or right (ltr or rtl) gets both lines
 
 
 
