@@ -83,21 +83,31 @@ class Graph extends Component {
     console.log('makeLines, looking for lines in', graph);
     for(var i=0;i<graph.length;i++){//this maps through diferent words looking for the ones that continue downwards
       console.log('makeLines, checking', graph[i]);
+      var usedWords=[];//repository of already connected words
       if(graph[i].branch.length>0){//if it has sons...
         for(var l=0;l<graph[i].word.length;l++){
           var newLine={};
           const indexOfWord=graph[i].branch.findIndex((el)=>{return el.word[0].toLowerCase()==graph[i].word[l].toLowerCase()});//el is a branch
           const indexOfWord2=graph[i].branch.findIndex((el)=>{return el.word[1].toLowerCase()==graph[i].word[l].toLowerCase()});//check if second letter belongs
-          console.log('makeLines, cheking letter by letter in:', graph[i].word[l],indexOfWord);
-          if(indexOfWord>=0||indexOfWord2>=0){
+          console.log('makeLines, cheking letter by letter in:', graph[i].word[l],indexOfWord,indexOfWord2,usedWords);
+        
+          if(indexOfWord>=0||indexOfWord2>=0){//last condition chechs 
             newLine.from=graph[i].word+''+graph[i].word[l]+''+graph[i].level+'i'+l;
             if(indexOfWord2>=0&&indexOfWord==-1){
               newLine.to=graph[i].branch[indexOfWord2].word+''+graph[i].branch[indexOfWord2].word[1]+''+graph[i].branch[indexOfWord2].level+'i1';
+              if(!usedWords.includes(graph[i].branch[indexOfWord2].word)){
+                linePairs.push(newLine);
+                usedWords.push(graph[i].branch[indexOfWord2].word);//add word to the repository
+              }
+
             }else{
               newLine.to=graph[i].branch[indexOfWord].word+''+graph[i].branch[indexOfWord].word[0]+''+graph[i].branch[indexOfWord].level+'i0';
+              if(!usedWords.includes(graph[i].branch[indexOfWord].word)){
+                linePairs.push(newLine);
+                usedWords.push(graph[i].branch[indexOfWord].word);//add word to the repository
+              }
             }
             console.log('makeLines, adding line from:',newLine.from,' to:',newLine.to);
-            linePairs.push(newLine);
           }
         }
         linePairs=linePairs.concat(this.makeLines(graph[i].branch));
