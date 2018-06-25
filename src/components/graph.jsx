@@ -2,21 +2,15 @@
 import $ from 'jquery';
 import { findDOMNode } from 'react-dom';
 import "../graph.css";
-import * as data from"../data.json";
 import AutoComplete from 'material-ui/AutoComplete';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {ActionSearch} from 'material-ui/svg-icons';
-
-/*const Button = (props) => {
-  return (
-    <
-  );
-};*/
 
 class Graph extends Component {
   constructor(props){
   	super(props);
   	this.state={
+      data:[],
   	  wordList:[],
       currentSearch:"",
       graph:[],
@@ -24,25 +18,30 @@ class Graph extends Component {
   }
   componentWillMount(){
   	console.log('preMount');
-  	this.getAbbreviationList();
+    $.getJSON('https://firebasestorage.googleapis.com/v0/b/abbreviationgraph.appspot.com/o/data.json?alt=media&token=032312ab-cd29-4020-b887-be51f6caa9ef',(dt)=>{
+      console.log('fetch, dt=',dt);
+      this.setState({data:dt});
+      this.setState({wordList:this.getAbbreviationList(dt)});
+    })
+  	
     $( findDOMNode(this.refs['lvl0']) ).change(function() {
       this.forceUpdate();
     });
   }
 
   //creates a list of words in the database
-  getAbbreviationList(){
+  getAbbreviationList(data){
     console.log('getAbbreviationList, original data:',data);
   	var words=[];//make an empty wird list
   	data.map(abb=>{
   	  words.push(abb.word)
   	});
   	console.log('got all the words!',words);
-  	this.setState({wordList:words});
+  	return words
   }
 
   //returns a new graph with an extended branch
-  addBranch(oldGraph,word){
+  addBranch(oldGraph,word,data){
     console.log('addBranch,adding branch in',oldGraph,'for',word);
     var newGraph=[];
     if(oldGraph==null){//initialize graph in no graph edgecase
@@ -58,7 +57,7 @@ class Graph extends Component {
     for(var i=0;i<newGraph.length;i++){//this maps through diferent words looking for the ones that continue downwards
       if(newGraph[i].branch.length>0){
         console.log('addBranch, not on this level, going deper!');
-        newGraph[i].branch=this.addBranch(newGraph[i].branch,word);//calls itself on the next layer
+        newGraph[i].branch=this.addBranch(newGraph[i].branch,word,this.state.data);//calls itself on the next layer
 
       }else if(newGraph[i].word==word&&index!=-1){//if the graph isn't already expanded and 
         console.log('addBranch, found it!',data[index]);
@@ -144,7 +143,7 @@ class Graph extends Component {
       wordGroup.push(<div>{word} </div>);//i add the word to the word group
       
       if((this.state.wordList.indexOf(leaf.word)!=-1)&&(leaf.branch.length==0)){//this word is on the database and not already expanded
-        wordGroup.push(<i className="material-icons" style={{color:'rgb(0,188,212)'}} onClick={()=>this.setState({graph:this.addBranch(this.state.graph,leaf.word)})}>add_circle</i>);//add an expand button
+        wordGroup.push(<i className="material-icons" style={{color:'rgb(0,188,212)'}} onClick={()=>this.setState({graph:this.addBranch(this.state.graph,leaf.word,this.state.data)})}>add_circle</i>);//add an expand button
       }
       phrase.push(<span className="letter">{wordGroup} </span>);
     });
@@ -178,7 +177,7 @@ class Graph extends Component {
             dataSource={this.state.wordList}
             onUpdateInput={(searchText)=>this.setState({currentSearch:searchText})}
           />
-          <FloatingActionButton iconStyle={{height:30,width:30}} style={{height:30,width:30,marginRight:20}} onClick={()=>this.setState({graph:this.addBranch(null,this.state.currentSearch)})}>
+          <FloatingActionButton iconStyle={{height:30,width:30}} style={{height:30,width:30,marginRight:20}} onClick={()=>this.setState({graph:this.addBranch(null,this.state.currentSearch,this.state.data)})}>
             <ActionSearch />
           </FloatingActionButton>
         </div>
