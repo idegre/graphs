@@ -86,11 +86,16 @@ class Graph extends Component {
       if(graph[i].branch.length>0){//if it has sons...
         for(var l=0;l<graph[i].word.length;l++){
           var newLine={};
-          const indexOfWord=graph[i].branch.findIndex((el)=>{return el.word[0].toLowerCase()==graph[i].word[l].toLowerCase()});
+          const indexOfWord=graph[i].branch.findIndex((el)=>{return el.word[0].toLowerCase()==graph[i].word[l].toLowerCase()});//el is a branch
+          const indexOfWord2=graph[i].branch.findIndex((el)=>{return el.word[1].toLowerCase()==graph[i].word[l].toLowerCase()});//check if second letter belongs
           console.log('makeLines, cheking letter by letter in:', graph[i].word[l],indexOfWord);
-          if(indexOfWord>=0){
-            newLine.from=graph[i].word+''+graph[i].word[l]+''+graph[i].level;
-            newLine.to=graph[i].branch[indexOfWord].word+''+graph[i].branch[indexOfWord].word[0]+''+graph[i].branch[indexOfWord].level;
+          if(indexOfWord>=0||indexOfWord2>=0){
+            newLine.from=graph[i].word+''+graph[i].word[l]+''+graph[i].level+'i'+l;
+            if(indexOfWord2>=0&&indexOfWord==-1){
+              newLine.to=graph[i].branch[indexOfWord2].word+''+graph[i].branch[indexOfWord2].word[1]+''+graph[i].branch[indexOfWord2].level+'i1';
+            }else{
+              newLine.to=graph[i].branch[indexOfWord].word+''+graph[i].branch[indexOfWord].word[0]+''+graph[i].branch[indexOfWord].level+'i0';
+            }
             console.log('makeLines, adding line from:',newLine.from,' to:',newLine.to);
             linePairs.push(newLine);
           }
@@ -117,7 +122,7 @@ class Graph extends Component {
         x1={($(findDOMNode(this.refs[line.from])).position()!=undefined)?$(findDOMNode(this.refs[line.from])).position().left+5:null} 
         y1={($(findDOMNode(this.refs[line.from])).position()!=undefined)?$(findDOMNode(this.refs[line.from])).position().top+16:null}
         x2={($(findDOMNode(this.refs[line.to])).position()!=undefined)?$(findDOMNode(this.refs[line.to])).position().left+5:null}
-        y2={($(findDOMNode(this.refs[line.to])).position()!=undefined)?$(findDOMNode(this.refs[line.to])).position().top-1:null}
+        y2={($(findDOMNode(this.refs[line.to])).position()!=undefined)?$(findDOMNode(this.refs[line.to])).position().top:null}
         style={{stroke:'DarkGray',strokeWidth:1}} 
       />);
       key++;
@@ -136,8 +141,10 @@ class Graph extends Component {
       console.log('returnGraph, mapping though branch:',leaf);
       var word=[];
       var wordGroup=[];
-      leaf.word.split("").map(letter=>{
-        word.push(<span className="letter" ref={leaf.word+''+letter+''+level} id={leaf.word+''+letter+''+level}>{letter}</span>);
+      leaf.word.split("").map((letter,index)=>{
+
+          word.push(<span className="letter" ref={leaf.word+''+letter+''+level+'i'+index} id={leaf.word+''+letter+''+level+'i'+index}>{letter}</span>);
+        
       });
       word.push(<span className="letter"> </span>);
       wordGroup.push(<div>{word} </div>);//i add the word to the word group

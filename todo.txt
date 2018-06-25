@@ -1,7 +1,8 @@
-
+-find dom node willl return the last element that works not the first as i want
+-the new double letter algorithm sometimes connects both letter
+-make lines algorithm still conects backwads
 -spaces too much
 -reapeated words get expanded together
--make data.json be stored in a firestore
 -make the makeLine algorithm not sear backwards on the suub level words
 -lines not updating correctly
 -להקים  
@@ -74,3 +75,5 @@ done:
 -add search
 	-make functional
 	-make ltr when nesessary
+
+-make data.json be stored in a firestore
